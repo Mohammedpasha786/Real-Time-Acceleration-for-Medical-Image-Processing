@@ -59,3 +59,32 @@ medical-imaging-pipeline/
 │
 ├── README.md
 └── .gitignore
+
+## Stack
+- MATLAB GPU Coder → CUDA (beamforming + enhancement)
+- NVIDIA Holoscan SDK (operator pipeline)
+- TensorRT (AI inference)
+- Holoviz (visualization)
+
+## Steps
+1. Generate CUDA code in MATLAB:
+   - Run `matlab/beamforming/generate_cuda_beamform.m`
+   - Run `matlab/enhancement/generate_cuda_enhance.m`
+2. Train and export CNN:
+   - Run `matlab/ai_inference/train_cnn.m`
+   - Run `matlab/ai_inference/export_model_onnx.m`
+3. Build Holoscan app:
+```bash
+   cd holoscan_app && mkdir build && cd build
+   cmake -DBUILD_BEAMFORM=ON -DBUILD_ENHANCE=ON ..
+   make -j$(nproc)
+   ./medical_pipeline
+```
+4. Or use Docker:
+```bash
+   docker build -t med-pipeline . && docker run --gpus all med-pipeline
+```
+
+## Reference
+- [HoloHub matlab_gpu_coder](https://github.com/nvidia-holoscan/holohub/tree/main/applications/matlab_gpu_coder)
+- [BUSI Dataset](https://doi.org/10.1016/j.dib.2019.104863)
