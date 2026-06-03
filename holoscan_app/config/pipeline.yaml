@@ -1,0 +1,23 @@
+%YAML 1.2
+---
+source:
+  data_path: ../data/sample_rf_data.mat
+  frame_rate: 30
+
+beamform:
+  speed_of_sound: 1540.0   # m/s
+  sampling_freq: 40e6       # Hz
+  element_pitch: 0.0003     # m
+
+enhance:
+  wiener_kernel: [5, 5]
+  clahe_clip_limit: 0.02
+
+inference:
+  model_path: ../models/lesion_detector.onnx
+  backend: trt               # TensorRT
+
+viz:
+  width: 1280
+  height: 720
+  window_title: "Medical Imaging Pipeline"
